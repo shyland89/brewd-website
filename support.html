@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support — Brewd</title>
+    <meta name="description" content="Get help with Brewd. Contact support.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-deep: #0e0c0a;
+            --bg-card: #1a1714;
+            --bg-card-hover: #211e19;
+            --cream: #f0ebe4;
+            --cream-muted: #b8b0a4;
+            --mauve: #b5627a;
+            --text-primary: #f0ebe4;
+            --text-secondary: #8a7b72;
+            --text-tertiary: #5c5049;
+            --border: #2a2520;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-primary);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        nav {
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-logo {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.35rem;
+            color: var(--cream);
+            text-decoration: none;
+        }
+
+        .nav-back {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-back:hover {
+            color: var(--cream);
+        }
+
+        main {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 4rem 2rem 6rem;
+        }
+
+        h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            color: var(--cream);
+        }
+
+        .intro {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+        }
+
+        /* --- CONTACT CARD --- */
+        .contact-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .contact-card h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: var(--cream);
+            margin-bottom: 0.75rem;
+        }
+
+        .contact-card p {
+            font-size: 0.925rem;
+            color: var(--cream-muted);
+            margin-bottom: 1.25rem;
+        }
+
+        .email-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.7rem 1.5rem;
+            background: var(--mauve);
+            color: var(--cream);
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .email-link:hover {
+            background: #c4738b;
+        }
+
+        /* --- FAQ --- */
+        .faq-section h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: var(--cream);
+            margin-bottom: 1.5rem;
+        }
+
+        .faq-item {
+            border-top: 1px solid var(--border);
+            padding: 1.25rem 0;
+        }
+
+        .faq-item:last-child {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .faq-item h3 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--cream);
+            margin-bottom: 0.5rem;
+        }
+
+        .faq-item p {
+            font-size: 0.875rem;
+            color: var(--cream-muted);
+            line-height: 1.65;
+        }
+
+        .faq-item a {
+            color: var(--mauve);
+            text-decoration: none;
+        }
+
+        .faq-item a:hover {
+            text-decoration: underline;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            main {
+                padding: 3rem 1.25rem 5rem;
+            }
+
+            nav {
+                padding: 1rem 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="/" class="nav-logo">Brewd</a>
+        <a href="/" class="nav-back">&larr; Back to home</a>
+    </nav>
+
+    <main>
+        <h1>Support</h1>
+        <p class="intro">Need help with Brewd? We're here.</p>
+
+        <div class="contact-card">
+            <h2>Get in touch</h2>
+            <p>For bugs, feature requests, account issues, or anything else — email us directly. We read and respond to everything.</p>
+            <a href="mailto:contact@insightquestsolutions.com" class="email-link">contact@insightquestsolutions.com</a>
+        </div>
+
+        <div class="faq-section">
+            <h2>Common questions</h2>
+
+            <div class="faq-item">
+                <h3>Is Brewd free?</h3>
+                <p>Yes. Bean logging, brew logging, your taste profile, and café check-ins are all free. Brewd Pro adds AI bag scanning, advanced taste analytics, unlimited check-ins, and data export for &euro;5/month or &euro;30/year.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>What platforms is Brewd available on?</h3>
+                <p>Brewd is launching on Android first. iOS is planned and coming soon.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>How do I delete my account?</h3>
+                <p>Email <a href="mailto:contact@insightquestsolutions.com">contact@insightquestsolutions.com</a> with your account email address and we'll permanently delete your account and all data within 30 days. This is irreversible.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Is my data safe?</h3>
+                <p>Your data is stored on Supabase infrastructure with encryption at rest and in transit. We don't sell your data to anyone. See our <a href="/privacy">privacy policy</a> for full details.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>I found a bug. What should I do?</h3>
+                <p>Email us at <a href="mailto:support@brewdcoffee.app">support@brewdcoffee.app</a> with what happened, what you expected, and your device model if possible. Screenshots help a lot.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Can I suggest a feature?</h3>
+                <p>Yes — we genuinely want to hear from you. Email us. Feature requests from people who actually use the app shape the roadmap.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <a href="/">&larr; Back to Brewd</a>
+    </footer>
+
+</body>
+</html>
