@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brewd — The Specialty Coffee Log</title>
+    <meta name="description" content="Track specialty coffee beans, log brew recipes, and build your taste profile. The personal memory bank for specialty coffee.">
+    <meta property="og:title" content="Brewd — The Specialty Coffee Log">
+    <meta property="og:description" content="Track specialty coffee beans, log brew recipes, and build your taste profile.">
+    <meta property="og:type" content="website">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=DM+Serif+Display&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-deep: #0e0c0a;
+            --bg-card: #1a1714;
+            --bg-card-hover: #211e19;
+            --cream: #f0ebe4;
+            --cream-muted: #b8b0a4;
+            --mauve: #b5627a;
+            --mauve-soft: rgba(181, 98, 122, 0.15);
+            --amber: #c8956c;
+            --text-primary: #f0ebe4;
+            --text-secondary: #8a7b72;
+            --text-tertiary: #5c5049;
+            --border: #2a2520;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* --- NAV --- */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(14, 12, 10, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-logo {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.35rem;
+            color: var(--cream);
+            text-decoration: none;
+            letter-spacing: 0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--cream);
+        }
+
+        /* --- HERO --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(ellipse, rgba(181, 98, 122, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-size: 0.8rem;
+            color: var(--mauve);
+            margin-bottom: 2.5rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .hero h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 400;
+            line-height: 1.15;
+            max-width: 700px;
+            margin-bottom: 1.5rem;
+            color: var(--cream);
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--mauve);
+        }
+
+        .hero p {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 480px;
+            margin-bottom: 3rem;
+            line-height: 1.7;
+        }
+
+        .hero-cta {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.9rem 2rem;
+            background: var(--mauve);
+            color: var(--cream);
+            border: none;
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .btn-primary:hover {
+            background: #c4738b;
+            transform: translateY(-1px);
+        }
+
+        .hero-note {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+        }
+
+        /* --- SECTION SHARED --- */
+        section {
+            padding: 6rem 2rem;
+        }
+
+        .container {
+            max-width: 1080px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--mauve);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(1.75rem, 4vw, 2.75rem);
+            font-weight: 400;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            color: var(--cream);
+        }
+
+        .section-subtitle {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            max-width: 520px;
+            line-height: 1.7;
+            margin-bottom: 3.5rem;
+        }
+
+        /* --- PROBLEM --- */
+        .problem {
+            border-top: 1px solid var(--border);
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .problem-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: background 0.2s;
+        }
+
+        .problem-card:hover {
+            background: var(--bg-card-hover);
+        }
+
+        .problem-card .icon {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .problem-card h3 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin-bottom: 0.6rem;
+            color: var(--cream);
+        }
+
+        .problem-card p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* --- FEATURES --- */
+        .features {
+            border-top: 1px solid var(--border);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.2s;
+        }
+
+        .feature-card:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--text-tertiary);
+        }
+
+        .feature-card .tag {
+            display: inline-block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 0.25rem 0.6rem;
+            border-radius: 4px;
+            margin-bottom: 1.25rem;
+            font-weight: 600;
+        }
+
+        .tag-free {
+            background: rgba(200, 149, 108, 0.15);
+            color: var(--amber);
+        }
+
+        .tag-pro {
+            background: var(--mauve-soft);
+            color: var(--mauve);
+        }
+
+        .feature-card h3 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.15rem;
+            font-weight: 400;
+            margin-bottom: 0.6rem;
+            color: var(--cream);
+        }
+
+        .feature-card p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* --- SCREENSHOT SECTION --- */
+        .screenshots {
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .screenshots .section-subtitle {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .screenshot-scroll {
+            display: flex;
+            gap: 1.5rem;
+            overflow-x: auto;
+            padding: 1rem 0 2rem;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .screenshot-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .screenshot-item {
+            flex-shrink: 0;
+            width: 260px;
+            scroll-snap-align: center;
+        }
+
+        .screenshot-placeholder {
+            width: 260px;
+            height: 520px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-tertiary);
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .screenshot-item p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* --- PRO --- */
+        .pro {
+            border-top: 1px solid var(--border);
+        }
+
+        .pro-box {
+            background: var(--bg-card);
+            border: 1px solid var(--mauve);
+            border-radius: 16px;
+            padding: 3rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .pro-box h3 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.75rem;
+            font-weight: 400;
+            margin-bottom: 0.75rem;
+            color: var(--cream);
+        }
+
+        .pro-box .price {
+            font-size: 1rem;
+            color: var(--mauve);
+            font-weight: 600;
+            margin-bottom: 1.25rem;
+        }
+
+        .pro-box .price span {
+            color: var(--text-tertiary);
+            font-weight: 400;
+            font-size: 0.85rem;
+        }
+
+        .pro-features-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .pro-features-list li {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .pro-features-list li::before {
+            content: '—';
+            position: absolute;
+            left: 0;
+            color: var(--mauve);
+        }
+
+        /* --- CTA / SIGNUP --- */
+        .signup {
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .signup .section-subtitle {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .signup-form {
+            display: flex;
+            gap: 0.75rem;
+            max-width: 440px;
+            margin: 0 auto;
+        }
+
+        .signup-form input {
+            flex: 1;
+            padding: 0.85rem 1.25rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--cream);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .signup-form input::placeholder {
+            color: var(--text-tertiary);
+        }
+
+        .signup-form input:focus {
+            border-color: var(--mauve);
+        }
+
+        .signup-form button {
+            padding: 0.85rem 1.5rem;
+            background: var(--mauve);
+            color: var(--cream);
+            border: none;
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+
+        .signup-form button:hover {
+            background: #c4738b;
+        }
+
+        .signup-note {
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 3rem 2rem;
+        }
+
+        .footer-inner {
+            max-width: 1080px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-left {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.1rem;
+            color: var(--cream);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--cream);
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem 1.25rem;
+            }
+
+            .nav-links {
+                gap: 1.25rem;
+            }
+
+            .nav-links a {
+                font-size: 0.8rem;
+            }
+
+            section {
+                padding: 4rem 1.25rem;
+            }
+
+            .problem-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pro-box {
+                grid-template-columns: 1fr;
+                padding: 2rem;
+                gap: 2rem;
+            }
+
+            .signup-form {
+                flex-direction: column;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+                gap: 1.5rem;
+                text-align: center;
+            }
+
+            .footer-links {
+                gap: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="/" class="nav-logo">Brewd</a>
+        <ul class="nav-links">
+            <li><a href="#features">Features</a></li>
+            <li><a href="#pro">Pro</a></li>
+            <li><a href="https://instagram.com/brewdapp" target="_blank" rel="noopener">Instagram</a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <span class="hero-badge">Coming soon — Android first</span>
+        <h1>Remember every <em>great</em> bean.</h1>
+        <p>The personal coffee log for specialty coffee drinkers. Track beans, log brews, build your taste profile.</p>
+        <div class="hero-cta">
+            <a href="#notify" class="btn-primary">Get notified at launch</a>
+            <span class="hero-note">Free to use. No spam.</span>
+        </div>
+    </section>
+
+    <!-- PROBLEM -->
+    <section class="problem">
+        <div class="container">
+            <p class="section-label">The problem</p>
+            <h2 class="section-title">You've forgotten more great coffee than you remember.</h2>
+            <p class="section-subtitle">Sound familiar?</p>
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <div class="icon">&#9749;</div>
+                    <h3>The lost bag</h3>
+                    <p>That Ethiopian natural you had three months ago. Incredible. Who roasted it? No idea.</p>
+                </div>
+                <div class="problem-card">
+                    <div class="icon">&#128203;</div>
+                    <h3>The notes app graveyard</h3>
+                    <p>Scattered notes, half-filled entries, no structure. You stopped updating it after week two.</p>
+                </div>
+                <div class="problem-card">
+                    <div class="icon">&#9881;</div>
+                    <h3>The grind roulette</h3>
+                    <p>You dialled in your V60 perfectly last Tuesday. What setting was it? You didn't write it down.</p>
+                </div>
+                <div class="problem-card">
+                    <div class="icon">&#127759;</div>
+                    <h3>The café you can't find</h3>
+                    <p>That specialty place in Berlin with the incredible flat white. It's saved somewhere in Google Maps. Maybe.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="features" id="features">
+        <div class="container">
+            <p class="section-label">What Brewd does</p>
+            <h2 class="section-title">Built for people who care about coffee.</h2>
+            <p class="section-subtitle">Not a generic tracker. Not a notes app with a coffee skin. A proper tool for specialty coffee.</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="tag tag-free">Free</span>
+                    <h3>Bean logging</h3>
+                    <p>Roaster, origin, process, roast level, tasting notes, varietal, rating. Every detail, structured and searchable.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="tag tag-free">Free</span>
+                    <h3>Brew logging</h3>
+                    <p>Method, dose, yield, grind, time, rating. Multiple brews per bean. Repeat your best cups instead of guessing.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="tag tag-free">Free</span>
+                    <h3>Your taste profile</h3>
+                    <p>Preferred origins, processes, roast levels — all calculated from your logged history. Shareable public profile.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="tag tag-free">Free</span>
+                    <h3>Coffee Passport</h3>
+                    <p>Check in at specialty cafés. Track cities and countries. Build a record of everywhere you've had great coffee.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="tag tag-pro">Pro</span>
+                    <h3>AI Bag Scan</h3>
+                    <p>Photograph any coffee bag. AI extracts roaster, origin, process, tasting notes — in seconds. No typing.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="tag tag-pro">Pro</span>
+                    <h3>Taste analytics</h3>
+                    <p>Brew method correlations, roaster loyalty patterns, gap analysis. See what you love and what you haven't tried yet.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SCREENSHOTS -->
+    <section class="screenshots">
+        <div class="container">
+            <p class="section-label">Inside the app</p>
+            <h2 class="section-title">Clean, fast, built for repeat use.</h2>
+            <p class="section-subtitle">Log a bean in under 30 seconds. Everything else gets out of the way.</p>
+        </div>
+        <div class="screenshot-scroll">
+            <!-- Replace these placeholders with actual app screenshots wrapped in phone frames -->
+            <div class="screenshot-item">
+                <div class="screenshot-placeholder">Collection view</div>
+                <p>Your bean library</p>
+            </div>
+            <div class="screenshot-item">
+                <div class="screenshot-placeholder">Bean detail</div>
+                <p>Every detail logged</p>
+            </div>
+            <div class="screenshot-item">
+                <div class="screenshot-placeholder">Brew log</div>
+                <p>Dial in your recipe</p>
+            </div>
+            <div class="screenshot-item">
+                <div class="screenshot-placeholder">Profile</div>
+                <p>Your coffee identity</p>
+            </div>
+            <div class="screenshot-item">
+                <div class="screenshot-placeholder">Passport</div>
+                <p>Stamp your passport</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRO -->
+    <section class="pro" id="pro">
+        <div class="container">
+            <div class="pro-box">
+                <div>
+                    <h3>Brewd Pro</h3>
+                    <p class="price">&euro;5/month <span>or &euro;34/year</span></p>
+                    <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6;">The price of one specialty coffee per month. For people who log enough to want the AI and the analytics.</p>
+                </div>
+                <ul class="pro-features-list">
+                    <li>AI Bag Scan — photograph any bag, auto-extract every detail</li>
+                    <li>Taste profile analytics and brew method correlations</li>
+                    <li>Roaster loyalty patterns</li>
+                    <li>Taste gap analysis — discover what you haven't explored</li>
+                    <li>Unlimited café check-ins</li>
+                    <li>Full data export</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- SIGNUP -->
+    <section class="signup" id="notify">
+        <div class="container">
+            <p class="section-label">Stay in the loop</p>
+            <h2 class="section-title">Get notified when Brewd launches.</h2>
+            <p class="section-subtitle">One email. No spam. Just a heads-up when the app is live.</p>
+            <form class="signup-form" action="#" method="POST">
+                <input type="email" placeholder="you@email.com" required>
+                <button type="submit">Notify me</button>
+            </form>
+            <p class="signup-note">Android first. iOS coming soon.</p>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-inner">
+            <span class="footer-left">Brewd</span>
+            <ul class="footer-links">
+                <li><a href="/privacy">Privacy</a></li>
+                <li><a href="/support">Support</a></li>
+                <li><a href="https://instagram.com/brewdapp" target="_blank" rel="noopener">Instagram</a></li>
+                <li><a href="https://tiktok.com/@brewdapp" target="_blank" rel="noopener">TikTok</a></li>
+            </ul>
+        </div>
+    </footer>
+
+</body>
+</html>
