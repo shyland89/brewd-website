@@ -870,11 +870,11 @@
             <p class="section-label">Stay in the loop</p>
             <h2 class="section-title">Get notified when Brewd launches.</h2>
             <p class="section-subtitle">One email. No spam. Just a heads-up when the app is live.</p>
-            <form class="signup-form" action="#" method="POST">
-                <input type="email" placeholder="you@email.com" required>
-                <button type="submit">Notify me</button>
+            <form class="signup-form" id="waitlist-form">
+                <input type="email" id="waitlist-email" placeholder="you@email.com" required autocomplete="email">
+                <button type="submit" id="waitlist-btn">Notify me</button>
             </form>
-            <p class="signup-note">Android first. iOS coming soon.</p>
+            <p class="signup-note" id="signup-note">Android first. iOS coming soon.</p>
         </div>
     </section>
 
@@ -891,6 +891,42 @@
         </div>
     </footer>
 
+
+    <script>
+    var SUPABASE_URL = 'https://srqmteifuvcdstdbmbne.supabase.co';
+    var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNycW10ZWlmdXZjZHN0ZGJtYm5lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU2MTczNTEsImV4cCI6MjA3MTE5MzM1MX0.TtJhJTQnxb0cv4g1QinBe515IcV3Lk5IvcP6jYZORTA';
+
+    document.getElementById('waitlist-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        var email = document.getElementById('waitlist-email').value.trim();
+        var btn = document.getElementById('waitlist-btn');
+        var note = document.getElementById('signup-note');
+        btn.disabled = true;
+        btn.textContent = 'Saving...';
+        try {
+            var res = await fetch(SUPABASE_URL + '/rest/v1/waitlist', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'apikey': SUPABASE_ANON_KEY,
+                    'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+                    'Prefer': 'return=minimal'
+                },
+                body: JSON.stringify({ email: email })
+            });
+            if (res.ok || res.status === 409) {
+                window.location.href = '/thanks';
+            } else {
+                throw new Error(res.status);
+            }
+        } catch(err) {
+            btn.disabled = false;
+            btn.textContent = 'Notify me';
+            note.textContent = 'Something went wrong — try again.';
+            note.style.color = '#b5627a';
+        }
+    });
+    </script>
 
     <script>
     (function() {
